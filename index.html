@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SceneSpot - Dizi ve Filmlerde Gördüğün Ürünleri Keşfet</title>
+  <meta name="description" content="Dizi ve filmlerde karakterlerin giydiği kıyafetleri, kullandığı mobilyaları ve aksesuarları keşfedin, nereden satın alabileceğinizi bulun veya kendi keşiflerinizi ekleyin!">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo" id="logo-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; background: var(--accent-gradient); -webkit-background-clip: text; color: var(--accent-primary)">
+          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+          <line x1="7" y1="2" x2="7" y2="22"></line>
+          <line x1="17" y1="2" x2="17" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="2" y1="7" x2="7" y2="7"></line>
+          <line x1="2" y1="17" x2="7" y2="17"></line>
+          <line x1="17" y1="17" x2="22" y2="17"></line>
+          <line x1="17" y1="7" x2="22" y2="7"></line>
+        </svg>
+        Scene<span>Spot</span>
+      </a>
+      <div class="nav-actions">
+        <button class="btn btn-primary" id="btn-add-scene">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Keşif Ekle
+        </button>
+        <!-- User Session Panel -->
+        <div id="user-panel" class="user-panel" style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="btn btn-secondary" id="btn-login-open">Giriş Yap</button>
+          <div id="user-info" class="user-info" style="display: none; align-items: center; gap: 0.75rem;">
+            <span class="user-avatar-tag" style="background: rgba(236, 72, 153, 0.15); color: var(--accent-primary); padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(236, 72, 153, 0.3);">@<span id="user-display-name">Kullanıcı</span></span>
+            <button class="btn btn-secondary" id="btn-logout" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Çıkış</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero container">
+    <h1>Ekrandaki Nesneleri <span>Keşfet!</span></h1>
+    <p>En sevdiğin dizi ve filmlerde gördüğün kıyafetleri, mobilyaları ve aksesuarları bul. Nereden satın alabileceğini öğren veya toplulukla paylaş!</p>
+    
+    <!-- Search Bar -->
+    <div class="search-bar-wrapper">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+      <input type="text" id="search-input" class="search-input" placeholder="Dizi, film, karakter, marka veya ürün ara...">
+    </div>
+
+    <!-- Category Filters -->
+    <div class="filters-wrapper" id="filters-container">
+      <button class="filter-btn active" data-category="all">Hepsi</button>
+      <button class="filter-btn" data-category="giyim">Giyim</button>
+      <button class="filter-btn" data-category="mobilya">Mobilya</button>
+      <button class="filter-btn" data-category="aksesuar">Aksesuar</button>
+      <button class="filter-btn" data-category="diger">Diğer</button>
+    </div>
+  </section>
+
+  <!-- Main Grid Section -->
+  <main class="container">
+    <div class="items-grid" id="items-grid">
+      <!-- Cards will be dynamically inserted here via app.js -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 SceneSpot. Sinema ve Stil Tutkunları İçin Tasarlandı.</p>
+    </div>
+  </footer>
+
+  <!-- Modal: Add Scene Product -->
+  <div class="modal" id="add-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="add-modal-close">&times;</button>
+      <h2 style="margin-bottom: 1.5rem; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Yeni Keşif Ekle</h2>
+      
+      <form id="add-scene-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-media-title">Dizi / Film Adı *</label>
+            <input type="text" id="form-media-title" required placeholder="Örn: Wednesday, Inception">
+          </div>
+          <div class="form-group">
+            <label for="form-media-type">Türü</label>
+            <select id="form-media-type">
+              <option value="dizi">Dizi</option>
+              <option value="film">Film</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-character-name">Karakter Adı *</label>
+            <input type="text" id="form-character-name" required placeholder="Örn: Wednesday Addams">
+          </div>
+          <div class="form-group">
+            <label for="form-actor-name">Oyuncu Adı (Opsiyonel)</label>
+            <input type="text" id="form-actor-name" placeholder="Örn: Jenna Ortega">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-item-name">Ürün Adı *</label>
+            <input type="text" id="form-item-name" required placeholder="Örn: Gotik Siyah Elbise">
+          </div>
+          <div class="form-group">
+            <label for="form-category">Kategori</label>
+            <select id="form-category">
+              <option value="giyim">Giyim</option>
+              <option value="mobilya">Mobilya</option>
+              <option value="aksesuar">Aksesuar</option>
+              <option value="diger">Diğer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-brand">Marka / Satıcı *</label>
+            <input type="text" id="form-brand" required placeholder="Örn: Prada, Wayfair">
+          </div>
+          <div class="form-group" style="display: grid; grid-template-columns: 3fr 1.5fr; gap: 0.5rem;">
+            <div>
+              <label for="form-price">Fiyat *</label>
+              <input type="number" id="form-price" required placeholder="Örn: 150">
+            </div>
+            <div>
+              <label for="form-currency">Para Birimi</label>
+              <select id="form-currency">
+                <option value="TL">TL</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="form-scene-img">Sahne Fotoğrafı URL'si *</label>
+            <input type="url" id="form-scene-img" required placeholder="https://images.unsplash.com/...">
+          </div>
+          <div class="form-group">
+            <label for="form-product-img">Ürün/Mağaza Fotoğrafı URL'si *</label>
+            <input type="url" id="form-product-img" required placeholder="https://images.unsplash.com/...">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="form-buy-url">Satın Alma Linki *</label>
+          <input type="url" id="form-buy-url" required placeholder="https://store.brand.com/product...">
+        </div>
+
+        <div class="form-group">
+          <label for="form-description">Detaylı Açıklama / Sahne Bilgisi *</label>
+          <textarea id="form-description" required rows="3" placeholder="Ürünün göründüğü sahne veya bölüm hakkında detaylar giriniz..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" id="form-cancel-btn">İptal</button>
+          <button type="submit" class="btn btn-primary">Kaydet & Paylaş</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Product Detail -->
+  <div class="modal" id="detail-modal">
+    <div class="modal-content" style="max-width: 900px;">
+      <button class="modal-close" id="detail-modal-close">&times;</button>
+      
+      <div class="detail-layout">
+        <!-- Visuals Showcase -->
+        <div class="detail-visuals">
+          <div class="detail-img-showcase">
+            <img src="" id="detail-scene-pic" class="active" alt="Sahne Görseli">
+            <img src="" id="detail-product-pic" alt="Ürün Görseli">
+          </div>
+          <div class="image-switch-tabs">
+            <button class="image-switch-btn active" id="tab-scene" data-target="scene">Sahnede Görünen</button>
+            <button class="image-switch-btn" id="tab-product" data-target="product">Gerçek Ürün</button>
+          </div>
+        </div>
+
+        <!-- Info Details -->
+        <div class="detail-info">
+          <span class="detail-category" id="detail-category-badge">Kategori</span>
+          <h2 class="detail-title" id="detail-title-text">Ürün Başlığı</h2>
+          
+          <div class="detail-price-box">
+            <div>
+              <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Marka Fiyatı</span>
+              <span class="detail-price" id="detail-price-text">0.00 TL</span>
+            </div>
+            <button class="btn btn-secondary card-likes" id="detail-like-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+              </svg>
+              Beğen (<span id="detail-likes-count">0</span>)
+            </button>
+          </div>
+
+          <p class="detail-desc" id="detail-description-text">Ürün açıklama bilgisi buraya gelecek.</p>
+
+          <ul class="detail-meta-list">
+            <li>
+              <strong>Dizi / Film:</strong>
+              <span id="detail-media-text">-</span>
+            </li>
+            <li>
+              <strong>Karakter:</strong>
+              <span id="detail-character-text">-</span>
+            </li>
+            <li>
+              <strong>Marka:</strong>
+              <span id="detail-brand-text">-</span>
+            </li>
+            <li>
+              <strong>Paylaşan:</strong>
+              <span id="detail-user-text">-</span>
+            </li>
+          </ul>
+
+          <a href="#" target="_blank" class="btn btn-primary" id="detail-buy-btn" style="width: 100%;">
+            Mağazaya Git
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </a>
+
+          <!-- Comments Segment -->
+          <div class="comments-section">
+            <h3 class="comments-title">Yorumlar (<span id="detail-comments-count">0</span>)</h3>
+            <div class="comments-list" id="detail-comments-list">
+              <!-- Dynamically populated comments -->
+            </div>
+            
+            <form id="comment-form" class="comment-form">
+              <div id="comment-user-wrapper" style="display: flex; gap: 0.5rem; width: 100%; align-items: center;">
+                <input type="text" id="comment-username-input" placeholder="İsim" style="width: 80px;" required>
+                <span id="comment-user-badge" style="display: none; font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; white-space: nowrap; padding-right: 0.5rem; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); padding: 0.5rem 0.75rem; border-radius: 8px;">@kullanıcı</span>
+                <input type="text" id="comment-text-input" class="comment-input" placeholder="Yorumunuzu yazın..." required>
+                <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;">Gönder</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Login -->
+  <div class="modal" id="login-modal">
+    <div class="modal-content" style="max-width: 440px; padding: 3rem; text-align: center; border-color: rgba(219, 39, 119, 0.25); box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8), 0 0 40px rgba(219, 39, 119, 0.15);">
+      <button class="modal-close" id="login-modal-close" style="top: 1rem; right: 1rem;">&times;</button>
+      
+      <!-- Logo in Login Screen -->
+      <div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 2.2rem; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem;">
+          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+          <line x1="7" y1="2" x2="7" y2="22"></line>
+          <line x1="17" y1="2" x2="17" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+        </svg>
+        Scene<span>Spot</span>
+      </div>
+
+      <h2 style="margin-bottom: 0.5rem; font-weight: 800; font-size: 1.6rem; color: #fff;">Hoş Geldiniz</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.5;" id="login-tip-text">Dizilerde ve filmlerde gördüğünüz nesneleri keşfetmek ve paylaşmak için giriş yapın.</p>
+      
+      <div id="login-error-msg" style="display: none; background-color: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.75rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 1.5rem;">
+        Kullanıcı adı en az 3 karakter olmalıdır!
+      </div>
+
+      <form id="login-form">
+        <div class="form-group" style="text-align: left;">
+          <label for="login-username">Kullanıcı Adı *</label>
+          <input type="text" id="login-username" required placeholder="Örn: merve_sinefil" style="padding: 1rem; border-radius: 12px; text-align: center;">
+        </div>
+        <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+          <label for="login-password">Şifre *</label>
+          <input type="password" id="login-password" required placeholder="••••••••" style="padding: 1rem; border-radius: 12px; text-align: center;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem; border-radius: 14px; margin-bottom: 0.75rem;">Giriş Yap</button>
+        <button type="button" class="btn btn-secondary" id="login-guest-btn" style="width: 100%; padding: 1rem; font-size: 1rem; border-radius: 14px;">Giriş Yapmadan Devam Et</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Application Script -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
